@@ -12,7 +12,7 @@ Improvements
   * Rename variables to be more explicit (don't like using divs in variable names).
   * Add persistent state via local storage and logic to populate fields.
   * Fine tune the algorithm for determining font size (font size can be increased by 2-3 at times)
-  * Bugs:
+Bugs:
   *     If you reduce the slider with no input, default text breaks.
   *     Max value of range finder set to 1500. Would be nice to transfer this to VW units.
   *     Make mobile friendly, range slider disappears on mobile view.
