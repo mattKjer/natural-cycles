@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scoped CSS Variables and JS</title>
+</head>
+<body>
+  <h2>Natural Cycles <span class='hl'>JS</span> test</h2>
+
+  <div class="controls">
+    <label for="base">Base Color</label>
+    <input id="base" type="color" name="base" value="#ffc600">
+    <label for="testString">Input Text</label>
+    <input id="testString" type="text" name="testString">
+    <label for="variable-width">Width:</label>
+    <input id="variable-width" type="range" name="variable-width" min="10" max="1500" value="500" data-sizing="px">
+  </div>
+
+
+  <div id="outputdiv" class="outputdiv"><p>Try Typing</p></div>
+
+  <style>
+    :root {
+      --base: #ffc600;
+      --spacing: 10px;
+      --blur: 10px;
+      --variable-width: 500px;
+    }
+
+    .hl {
+      color: var(--base);
+    }
+
+    .outputdiv {
+      margin: auto;
+      max-width: var(--variable-width);
+      outline: 1px solid var(--base);
+      height: 50px;
+    }
+
+    body {
+      text-align: center;
+      background: #193549;
+      color: white;
+      font-family: 'helvetica neue', sans-serif;
+      font-weight: 100;
+      font-size: 50px;
+    }
+
+    .controls {
+      margin-bottom: 50px;
+    }
+
+    input {
+      width:100px;
+    }
+  </style>
+
+  <script>
+
+    let canvas = document.createElement('canvas');
+    let ctx = canvas.getContext("2d");
+
+    function getFontSize(fontSize, divSize, divContent) {
+        ctx.font = `${fontSize}px helvetica neue`;
+        let width = ctx.measureText(divContent).width;
+
+        while(width > divSize) {
+            return getFontSize(fontSize -1, divSize, divContent);
+        }
+        return fontSize;
+    }
+
+    flexFont = () => {
+        let targetDiv = document.getElementById("outputdiv");
+        let textToMirror = document.getElementById('testString').value;
+        let lengthOfTarget = targetDiv.offsetWidth;
+
+        let fontSize = getFontSize(50, lengthOfTarget, textToMirror);
+        console.log('final fontsize is: ', fontSize);
+
+        fontSize > 50 ? targetDiv.style.fontSize = 50+'px' : targetDiv.style.fontSize= fontSize+'px';
+    };
+
+    const inputs = document.querySelectorAll('.controls input');
+
+    function handleUpdate() {
+      const suffix = this.dataset.sizing || '';
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+      flexFont();
+    }
+
+
+    function handleTextUpdate() {
+        let textToMirror = document.getElementById('testString').value;
+        const mirroredText = document.getElementById('outputdiv');
+        textToMirror.length === 0 ? mirroredText.innerHTML = "Try Typing" : mirroredText.innerHTML = textToMirror;
+        flexFont();
+    }
+
+    inputs.forEach(input => input.addEventListener('change', handleUpdate));
+    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
+    window.addEventListener('keyup', handleTextUpdate);
+
+    /*
+    -------------
+    Intro & Improvements
+    -------------
+    I built this as a single html page as opposed to use React/Angular/Vue.
+    Using in a framework for a simple one page JS demonstration would have been far too much bloat.
+    Best tool for the job etc.
+
+    Improvements
+    * Rename variables to be more explicit (don't like using divs in variable names).
+    * Add persistent state via local storage and logic to populate fields.
+    * Fine tune the algorithm for determining font size (font size can be increased by 2-3 at times)
+    * Bugs:
+    *     If you reduce the slider with no input, default text breaks.
+    *     Max value of range finder set to 1500. Would be nice to transfer this to VW units.
+    *     Make mobile friendly, range slider disappears on mobile view.
+    *     Move javascript to .js file, kept in the same file for interviewers sake.
+    *     Investigate efficiency of getFontSize.
+    *     Lint.
+    *     Unit test.
+     */
+  </script>
+
+
+</body>
+</html>
