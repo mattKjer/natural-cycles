@@ -17,7 +17,7 @@
 </div>
 
 
-<div id="outputdiv" class="outputdiv"><p>Try Typing</p></div>
+<div id="outputdiv" class="outputdiv"></div>
 
 <style>
   :root {
@@ -71,7 +71,7 @@
         return fontSize;
     }
 
-    flexFont = () => {
+    const flexFont = () => {
         let targetDiv = document.getElementById("outputdiv");
         let textToMirror = document.getElementById('testString').value;
         let lengthOfTarget = targetDiv.offsetWidth;
@@ -100,6 +100,7 @@
     inputs.forEach(input => input.addEventListener('change', handleUpdate));
     inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
     window.addEventListener('keyup', handleTextUpdate);
+    handleTextUpdate();
 </script>
 
 
