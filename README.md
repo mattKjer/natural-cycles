@@ -14,6 +14,8 @@ Improvements
   * Fine tune the algorithm for determining font size (font size can be increased by 2-3 at times)
   * Move javascript to .js file, kept in the same file for interviewers sake.
   * Investigate efficiency of getFontSize.
+  * Limit the number of times the mousemove event is triggered for performance.
+  * Remove id's and find another way to select the output element. 
   * Lint.
   * Unit test.
   
